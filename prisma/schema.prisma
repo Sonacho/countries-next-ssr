@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "cockroachdb"
+  url          = env("DATABASE_URL")
+  relationMode = "foreignKeys"
+}
+
+model Country {
+  id         String                  @id @default(uuid())
+  name       String                  @unique
+  img        String                  @default("img")
+  continent  String
+  capital    String
+  subregion  String
+  area       Float
+  population Int
+  cords      Float[]
+  activities ActivitiesOnCountries[]
+}
+
+model Activity {
+  id         String                  @id @default(uuid())
+  name       String                  @unique
+  difficulty Int                     @unique
+  season     String
+  countries  ActivitiesOnCountries[]
+}
+
+model ActivitiesOnCountries {
+  country    Country?  @relation(fields: [countryId], references: [id])
+  countryId  String // relation scalar field (used in the `@relation` attribute above)
+  activity   Activity? @relation(fields: [activityId], references: [id])
+  activityId String // relation scalar field (used in the `@relation` attribute above)
+  assignedAt DateTime  @default(now())
+  assignedBy String
+
+  @@id([countryId, activityId])
+}

@@ -105,7 +105,7 @@ const Countries = () => {
           )}
           {fileteredCountries?.length === 0 && (
             <p className="font-semibold text-lg text-neutral-200">
-              Not countries found.
+              No countries found.
             </p>
           )}
         </div>

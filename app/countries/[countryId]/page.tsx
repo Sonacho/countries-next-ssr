@@ -1,6 +1,7 @@
 import getCountry from "@/actions/get-country";
 import CordsToMap from "@/components/cords-to-map";
 import { ArrowLeftCircle } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 const CountryDetail = async ({ params }: { params: { countryId: string } }) => {
@@ -11,7 +12,7 @@ const CountryDetail = async ({ params }: { params: { countryId: string } }) => {
       <div className=" bg-[#2B3945] w-11/12 h-5/6 rounded-lg flex flex-col">
         <div className="w-full h-[80%] flex justify-around p-10">
           <div className="w-1/2 h-full flex items-center justify-center">
-          <img
+          <Image
             src={country.img}
             alt="flag"
             className="rounded-lg max-h-full"

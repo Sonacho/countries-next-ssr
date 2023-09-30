@@ -50,7 +50,6 @@ const Countries = () => {
                 <RevealOnScroll>
                   <Link
                     href={`/countries/${country.id}`}
-                    
                     className="w-[270px] h-[340px] p-0 bg-[#2B3945] flex flex-col rounded-lg shadow-slate-900 shadow-md hover:shadow-lg hover:shadow-slate-950 transition-all transform hover:scale-105"
                   >
                     <div className="h-1/2 w-full">
@@ -58,6 +57,8 @@ const Countries = () => {
                         src={country.img}
                         alt="img"
                         className="h-full w-full object-cover rounded-t-md"
+                        width={100}
+                        height={100}
                       />
                     </div>
                     <div className="flex-grow p-1">

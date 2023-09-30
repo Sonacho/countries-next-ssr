@@ -2,7 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import axios from "axios";
-axios.defaults.baseURL = 'https://countries-next-blond.vercel.app';
+axios.defaults.baseURL = process.env.LOCALHOST || "https://countries-next-blond.vercel.app"
 
 const inter = Inter({ subsets: ['latin'] })
 

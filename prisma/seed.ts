@@ -28,7 +28,7 @@ async function main() {
             : `${countries[i].capital.map((c: string) => c.toString())}`
         }`,
         subregion: `${
-          !countries[i].capital
+          !countries[i].subregion
             ? "Subregion not found"
             : countries[i].subregion
         }`,

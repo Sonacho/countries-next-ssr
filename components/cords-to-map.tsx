@@ -20,7 +20,7 @@ const CordsToMap: React.FC<CordsToMapProps> = ({ cords, area, name }) => {
         latitude: cords[0],
         zoom: area < 600 ? 9 : 4,
       }}
-      style={{ width: 600, height: 400 }}
+      style={{ width: "100%", height: "100%"}}
       mapStyle="mapbox://styles/mapbox/light-v10"
       attributionControl={false}
     >

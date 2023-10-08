@@ -1,35 +1,24 @@
-"use client";
-import SearchFilters from "@/app/countries/components/search-filters";
+
+import Search from "@/app/countries/components/search";
 import getCountries from "@/actions/get-countries";
-import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Country } from "@prisma/client";
-import RevealOnScroll from "@/components/reveal-on-scroll";
+import React from "react";
 import theGlobe from "@/public/theGlobe.png";
 import Image from "next/image";
-import { Skeleton } from "@/components/ui/skeleton";
+import Filters from "./components/filters";
 
-const Countries = () => {
-  const [countries, setCountries] = useState<Country[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [fileteredCountries, setFilteredCountries] = useState<
-    Country[] | undefined
-  >([]);
+interface CountriesProps{
+  searchParams: {
+    continent: string,
+    search:string
+  }
+} 
 
-  const fetchCountries = async () => {
-    const countries = await getCountries();
-    setCountries(countries);
-    setFilteredCountries(countries);
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    fetchCountries();
-  }, []);
-
+const Countries:React.FC<CountriesProps> = async ({searchParams}) => {
+  const countries = await getCountries({continent:searchParams.continent, search:searchParams.search})
   return (
     <>
-      <header className="flex text-neutral-200 bg-[#2B3945] py-1 pt-4 shadow-slate-900 shadow-md min-w-screen justify-center">
+      <header className="flex text-neutral-200 bg-primary py-1 pt-4 shadow-slate-900 shadow-md min-w-screen justify-center">
         <Link href={"/countries"} className="font-bold text-4xl w-40 h-20">
           <Image
             src={theGlobe}
@@ -38,19 +27,17 @@ const Countries = () => {
           />
         </Link>
       </header>
-      <main className="mx-[8%] flex flex-col items-center">
-        <SearchFilters
-          setCountries={setFilteredCountries}
-          countries={countries}
-        />
+      <nav className="sm:flex-row sm:flex sm:items-center sm:justify-center flex flex-col items-center justify-center py-10 gap-5">
+        <Search/>
+        <Filters/>
+      </nav>
+      <section className="mx-[8%] flex flex-col items-center">
         <div className="flex flex-wrap gap-12 items-center justify-center">
-          {fileteredCountries && !isLoading ? (
-            fileteredCountries.map((country) => (
-              <div key={country.id}>
-                <RevealOnScroll>
+          {countries && countries.map((country) => (
+              <React.Fragment key={country.id}>
                   <Link
                     href={`/countries/${country.id}`}
-                    className="w-[270px] h-[340px] p-0 bg-[#2B3945] flex flex-col rounded-lg shadow-slate-900 shadow-md hover:shadow-lg hover:shadow-slate-950 transition-all transform hover:scale-105"
+                    className="w-[270px] h-[340px] p-0 bg-primary flex flex-col rounded-lg shadow-slate-900 shadow-md hover:shadow-lg hover:shadow-slate-950 transition-all transform hover:scale-105"
                   >
                     <div className="h-1/2 w-full">
                       <Image
@@ -81,35 +68,16 @@ const Countries = () => {
                       </ul>
                     </div>
                   </Link>
-                </RevealOnScroll>
-              </div>
+                  </React.Fragment>
             ))
-          ) : (
-            <div className="flex flex-wrap gap-12 items-center justify-center">
-              <Skeleton className="w-[270px] h-[340px] rounded-lg bg-[#2B3945]" />
-              <Skeleton className="w-[270px] h-[340px] rounded-lg bg-[#2B3945]" />
-              <Skeleton className="w-[270px] h-[340px] rounded-lg bg-[#2B3945]" />
-              <Skeleton className="w-[270px] h-[340px] rounded-lg bg-[#2B3945]" />
-              <Skeleton className="w-[270px] h-[340px] rounded-lg bg-[#2B3945]" />
-              <Skeleton className="w-[270px] h-[340px] rounded-lg bg-[#2B3945]" />
-              <Skeleton className="w-[270px] h-[340px] rounded-lg bg-[#2B3945]" />
-              <Skeleton className="w-[270px] h-[340px] rounded-lg bg-[#2B3945]" />
-              <Skeleton className="w-[270px] h-[340px] rounded-lg bg-[#2B3945]" />
-              <Skeleton className="w-[270px] h-[340px] rounded-lg bg-[#2B3945]" />
-              <Skeleton className="w-[270px] h-[340px] rounded-lg bg-[#2B3945]" />
-              <Skeleton className="w-[270px] h-[340px] rounded-lg bg-[#2B3945]" />
-              <Skeleton className="w-[270px] h-[340px] rounded-lg bg-[#2B3945]" />
-              <Skeleton className="w-[270px] h-[340px] rounded-lg bg-[#2B3945]" />
-              <Skeleton className="w-[270px] h-[340px] rounded-lg bg-[#2B3945]" />
-            </div>
-          )}
-          {fileteredCountries?.length === 0 && (
+          }
+          {countries?.length === 0 && (
             <p className="font-semibold text-lg text-neutral-200">
               No countries found.
             </p>
           )}
         </div>
-      </main>
+      </section>
     </>
   );
 };

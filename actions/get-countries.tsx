@@ -2,7 +2,7 @@ import { Country } from "@prisma/client";
 import axios from "axios";
 import qs from 'query-string';
 
-const URL = "https://countries-next-ssr.vercel.app/api/countries"
+const URL = process.env.LOCALHOST ? `${process.env.LOCALHOST}/api/countries` : "https://countries-next-ssr.vercel.app/api/countries"
 interface Query {
     continent?: string,
     search?: string

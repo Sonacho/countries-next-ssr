@@ -11,6 +11,7 @@ const Search = () => {
  
 
   const [search, setSearch] = useState("");
+  
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -35,6 +36,7 @@ const Search = () => {
     return () => clearTimeout(delayDebounceFn);
   }, [search]);
 
+
   return (
     <div className="text-center text-neutral-200">
       <Input
@@ -43,7 +45,8 @@ const Search = () => {
         type="text"
         name="search"
         autoComplete="false"
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) => {setSearch(e.target.value), window.localStorage.setItem("searchValue", search)}}
+        value={search}
         className=" w-[400px] placeholder:text-neutral-200 border-none shadow-md bg-primary shadow-slate-950 !ring-0 ring-offset-slate-500"
       />
     </div>

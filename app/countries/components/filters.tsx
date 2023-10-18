@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -14,6 +14,16 @@ const Filters = () => {
   const [value, setValue] = useState("");
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const value = window.localStorage.getItem("selectValue")
+    if(value && searchParams.toString().includes("continent")){
+      setValue(value)
+    }else{
+      setValue("")
+    }
+  
+  }, [])
 
   const onSelect = (value: string) => {
     let newUrl = "";
@@ -36,8 +46,9 @@ const Filters = () => {
     <div>
       <Select
         onValueChange={(value) => {
-          onSelect(value), setValue(value);
+          onSelect(value), setValue(value), window.localStorage.setItem("selectValue", value);
         }}
+        value={value}
       >
         <SelectTrigger className="w-[180px] border-none shadow-md bg-primary shadow-slate-950 !ring-0 ring-offset-slate-500 text-neutral-200">
           <SelectValue placeholder="Select a continent" />
